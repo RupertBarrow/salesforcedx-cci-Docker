@@ -3,7 +3,7 @@ Docker file which includes Salesforce DX and plugins, jq, and Cumulus CI, used t
 This was inspired by the Salesforce DX salesforce/salesforcedx Docker files at https://github.com/salesforcecli/sfdx-cli/tree/main/dockerfiles.
 
 ## Docker hub
-The docker image is published in the Docker hub at rupertbarrow/salesforcedx-cci 
+The docker image is published in the Docker hub at https://hub.docker.com/r/rupertbarrow/salesforcedx-cci 
 
 ## Contents
 ### Tooling :
