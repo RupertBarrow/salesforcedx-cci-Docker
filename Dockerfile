@@ -14,7 +14,7 @@ RUN add-apt-repository -y ppa:git-core/ppa
 RUN apt-get update
 RUN apt-get install git -y
 
-# Install Python
+# Install Python 3.10
 RUN add-apt-repository ppa:deadsnakes/ppa
 RUN apt update
 RUN echo y | apt install python3.10
@@ -23,8 +23,8 @@ RUN echo y | apt install python3.10
 RUN echo y | apt install python3.10-distutils
 RUN curl -sS https://bootstrap.pypa.io/get-pip.py | python3.10
 
-# Install Cumulus CI
-RUN pip3 install cumulusci
+# Install Cumulus CI 3.53.0
+RUN pip3 install --no-cache-dir cumulusci==3.53.0
 
 # Install SFDX plugins
 RUN echo y | sfdx plugins:install shane-sfdx-plugins@4.43.0

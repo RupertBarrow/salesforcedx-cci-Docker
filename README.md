@@ -20,7 +20,7 @@ The docker image is published in the Docker hub at https://hub.docker.com/r/rupe
 ### Cumulus CI :
 - Python version: 3.10.2
 - pip 21.3.1
-- CumulusCI version: 3.52.0
+- CumulusCI version: 3.53.0
 
 ## Usage
 Example of a Github Action to execute tests on every commit on a feature branch, with the Cumulus CI ci_feature flow :
