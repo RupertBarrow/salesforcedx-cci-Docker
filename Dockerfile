@@ -1,9 +1,9 @@
-FROM salesforce/salesforcedx:7.139.0-full
+FROM salesforce/salesforcedx:7.151.1-full
 
 ENV SHELL /bin/bash
 ENV DEBIAN_FRONTEND=noninteractive
-ARG SALESFORCE_CLI_VERSION=7.139.0
-ARG SF_CLI_VERSION=1.15.0
+ARG SALESFORCE_CLI_VERSION=7.151.1
+ARG SF_CLI_VERSION=1.27.0
 
 # Basic
 RUN apt update
@@ -23,8 +23,8 @@ RUN echo y | apt install python3.10
 RUN echo y | apt install python3.10-distutils
 RUN curl -sS https://bootstrap.pypa.io/get-pip.py | python3.10
 
-# Install Cumulus CI 3.53.0
-RUN pip3 install --no-cache-dir cumulusci==3.53.0
+# Install Cumulus CI 3.58.0
+RUN pip3 install --no-cache-dir cumulusci==3.58.0
 
 # Install SFDX plugins
 RUN echo y | sfdx plugins:install shane-sfdx-plugins@4.43.0

@@ -8,11 +8,11 @@ The docker image is published in the Docker hub at https://hub.docker.com/r/rupe
 ## Contents
 ### Tooling :
 - git 2.35.0
-- jq ???
+- jq 1.6
 
 ### SFDX CLI :
-- sfdx/cli@7.139.0
-- @salesforce/sf-cli@1.15.0
+- sfdx/cli@7.151.1
+- @salesforce/sf-cli@1.27.0
 
 ### SFDX plugins :
 - mshanemc/shane-sfdx-plugins@4.43.0
@@ -20,7 +20,7 @@ The docker image is published in the Docker hub at https://hub.docker.com/r/rupe
 ### Cumulus CI :
 - Python version: 3.10.2
 - pip 21.3.1
-- CumulusCI version: 3.53.0
+- CumulusCI version: 3.58.0
 
 ## Usage
 Example of a Github Action to execute tests on every commit on a feature branch, with the Cumulus CI ci_feature flow :
@@ -40,7 +40,7 @@ jobs:
   unit_tests:
     name: "Run Apex tests"
     runs-on: ubuntu-latest
-    container: rupertbarrow/salesforcedx-cci:3.52.0
+    container: rupertbarrow/salesforcedx-cci:3.58.0
     steps:
       - name: Run Cumulus ci_feature
         env:
@@ -57,12 +57,12 @@ jobs:
 
 ## Dockerfile details
 ```
-FROM salesforce/salesforcedx:7.139.0-full
+FROM salesforce/salesforcedx:7.151.1-full
 
 ENV SHELL /bin/bash
 ENV DEBIAN_FRONTEND=noninteractive
-ARG SALESFORCE_CLI_VERSION=7.139.0
-ARG SF_CLI_VERSION=1.15.0
+ARG SALESFORCE_CLI_VERSION=7.151.1
+ARG SF_CLI_VERSION=1.27.0
 
 # Basic
 RUN apt update
@@ -111,7 +111,7 @@ This is how to proceed :
 Create your own Docxker file based on this image, and add your plugins, update SFDX CLI or Cumulus CI :
 ```
 # My new Docker file
-FROM rupertbarrow/salesforcedx-cci:3.52.0
+FROM rupertbarrow/salesforcedx-cci:3.58.0
 
 ENV SHELL /bin/bash
 ENV DEBIAN_FRONTEND=noninteractive
