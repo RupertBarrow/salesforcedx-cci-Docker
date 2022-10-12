@@ -1,28 +1,35 @@
 # salesforcedx-cci Docker image with SFDX CLI and Cumulus CI
+
 Docker file which includes Salesforce DX and plugins, jq, and Cumulus CI, used to simplify Github Actions.
 This was inspired by the Salesforce DX salesforce/salesforcedx Docker files at https://github.com/salesforcecli/sfdx-cli/tree/main/dockerfiles.
 
 ## Docker hub
-The docker image is published in the Docker hub at https://hub.docker.com/r/rupertbarrow/salesforcedx-cci 
+
+The docker image is published in the Docker hub at https://hub.docker.com/r/rupertbarrow/salesforcedx-cci
 
 ## Contents
+
 ### Tooling :
-- git 2.35.0
-- jq 1.6
+
+- git v2.35.0
+- jq v1.6
+- prettier
 
 ### SFDX CLI :
-- sfdx/cli@7.151.1
-- @salesforce/sf-cli@1.27.0
+
+- sfdx v7.172.0
+- sf v1.49.0
 
 ### SFDX plugins :
-- mshanemc/shane-sfdx-plugins@4.43.0
+
+- mshanemc/shane-sfdx-plugins v4.43.0
 
 ### Cumulus CI :
-- Python version: 3.10.2
-- pip 21.3.1
-- CumulusCI version: 3.58.0
+
+- CumulusCI cci v3.66.0
 
 ## Usage
+
 Example of a Github Action to execute tests on every commit on a feature branch, with the Cumulus CI ci_feature flow :
 
 ```
@@ -40,7 +47,7 @@ jobs:
   unit_tests:
     name: "Run Apex tests"
     runs-on: ubuntu-latest
-    container: rupertbarrow/salesforcedx-cci:3.58.0
+    container: rupertbarrow/salesforcedx-cci:3.66.0
     steps:
       - name: Run Cumulus ci_feature
         env:
@@ -56,12 +63,13 @@ jobs:
 ```
 
 ## Dockerfile details
+
 ```
-FROM salesforce/salesforcedx:7.151.1-full
+FROM salesforce/salesforcedx:7.172.0-full
 
 ENV SHELL /bin/bash
 ENV DEBIAN_FRONTEND=noninteractive
-ARG SALESFORCE_CLI_VERSION=7.151.1
+ARG SALESFORCE_CLI_VERSION=7.172.0
 ARG SF_CLI_VERSION=1.27.0
 
 # Basic
@@ -102,16 +110,19 @@ ENV DEBIAN_FRONTEND=dialog
 ```
 
 ## Note on versioning
+
 I'm careful about avoiding tooling regression, so there are no implicit versions mentioned here. All version numbers are hardcoded so that tooling behaves in a reproduceable manner.
 
 ## Extending this Docker image to add your own SFDX plugins
+
 People might want to have this same Docker file with other plugins.
 This is how to proceed :
 
 Create your own Docxker file based on this image, and add your plugins, update SFDX CLI or Cumulus CI :
+
 ```
 # My new Docker file
-FROM rupertbarrow/salesforcedx-cci:3.58.0
+FROM rupertbarrow/salesforcedx-cci:1.172.0_3.66.0
 
 ENV SHELL /bin/bash
 ENV DEBIAN_FRONTEND=noninteractive
