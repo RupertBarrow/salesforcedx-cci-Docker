@@ -14,7 +14,8 @@ RUN echo y | apt install software-properties-common
 # Get Git >= 2.18 : actions/checkout@v2 says "To create a local Git repository instead, add Git 2.18 or higher to the PATH"
 RUN add-apt-repository -y ppa:git-core/ppa
 RUN apt-get update
-RUN apt-get install git -y
+RUN apt-get install -y --no-install-recommends git \
+  && rm -rf /var/lib/apt/lists/*
 
 # Install Python 3.10
 RUN add-apt-repository ppa:deadsnakes/ppa
@@ -25,7 +26,7 @@ RUN echo y | apt install python3.10
 RUN echo y | apt install python3.10-distutils
 RUN curl -sS https://bootstrap.pypa.io/get-pip.py | python3.10
 
-# Install Cumulus CI 3.66.0
+# Install Cumulus CI
 RUN pip3 install --no-cache-dir cumulusci==${CUMULUSCI_VERSION}
 
 # Install SFDX plugins
@@ -42,7 +43,8 @@ RUN echo y | sfdx plugins:install @dxatscale/sfpowerscripts@21.1.0
 #  apk del nodejs-npm
 RUN set -x && \
   (curl -sL https://deb.nodesource.com/setup_16.x | bash) && \
-  apt-get install nodejs && \
+  apt-get install --no-install-recommends nodejs && \
+  rm -rf /var/lib/apt/lists/* && \
   npm install -g prettier@${PRETTIER_VERSION} && \
   npm cache clean --force
 
