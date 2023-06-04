@@ -1,11 +1,11 @@
-FROM salesforce/salesforcedx:7.172.0-full
+FROM salesforce/salesforcedx:7.203.6-full
 
 ENV SHELL /bin/bash
 ENV DEBIAN_FRONTEND=noninteractive
 
-ARG SALESFORCE_CLI_VERSION=7.172.0
-ARG SF_CLI_VERSION=1.49.0
-ARG CUMULUSCI_VERSION=3.66.0
+ARG SALESFORCE_CLI_VERSION=7.203.6
+ARG SF_CLI_VERSION=1.81.0
+ARG CUMULUSCI_VERSION=3.76.0
 
 # Basic
 RUN apt update
@@ -30,6 +30,7 @@ RUN pip3 install --no-cache-dir cumulusci==${CUMULUSCI_VERSION}
 
 # Install SFDX plugins
 RUN echo y | sfdx plugins:install shane-sfdx-plugins@4.43.0
+RUN echo y | sfdx plugins:install @dxatscale/sfpowerscripts@21.1.0
 
 # Install prettier
 #ARG NODEJS_VERSION=12.15.0-r1
