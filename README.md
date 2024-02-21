@@ -15,10 +15,9 @@ The docker image is published in the Docker hub at https://hub.docker.com/r/rupe
 - jq v1.6
 - prettier
 
-### SFDX CLI :
+### SF CLI :
 
-- sfdx v7.172.0
-- sf v1.49.0
+- sf v2.28.6
 
 ### SFDX plugins :
 
@@ -26,7 +25,7 @@ The docker image is published in the Docker hub at https://hub.docker.com/r/rupe
 
 ### Cumulus CI :
 
-- CumulusCI cci v3.66.0
+- CumulusCI cci v3.84.2
 
 ## Usage
 
@@ -47,7 +46,7 @@ jobs:
   unit_tests:
     name: "Run Apex tests"
     runs-on: ubuntu-latest
-    container: rupertbarrow/salesforcedx-cci:3.66.0
+    container: rupertbarrow/salesforcedx-cci:latest
     steps:
       - name: Run Cumulus ci_feature
         env:
@@ -65,12 +64,13 @@ jobs:
 ## Dockerfile details
 
 ```
-FROM salesforce/salesforcedx:7.172.0-full
+FROM salesforce/cli:2.28.6-full
 
 ENV SHELL /bin/bash
 ENV DEBIAN_FRONTEND=noninteractive
-ARG SALESFORCE_CLI_VERSION=7.172.0
-ARG SF_CLI_VERSION=1.27.0
+
+ARG SF_CLI_VERSION=2.28.6
+ARG CUMULUSCI_VERSION=3.84.2
 
 # Basic
 RUN apt update
@@ -79,9 +79,10 @@ RUN echo y | apt install software-properties-common
 # Get Git >= 2.18 : actions/checkout@v2 says "To create a local Git repository instead, add Git 2.18 or higher to the PATH"
 RUN add-apt-repository -y ppa:git-core/ppa
 RUN apt-get update
-RUN apt-get install git -y
+RUN apt-get install -y --no-install-recommends git \
+  && rm -rf /var/lib/apt/lists/*
 
-# Install Python
+# Install Python 3.10
 RUN add-apt-repository ppa:deadsnakes/ppa
 RUN apt update
 RUN echo y | apt install python3.10
@@ -91,19 +92,31 @@ RUN echo y | apt install python3.10-distutils
 RUN curl -sS https://bootstrap.pypa.io/get-pip.py | python3.10
 
 # Install Cumulus CI
-RUN pip3 install cumulusci
+RUN pip3 install --no-cache-dir cumulusci==${CUMULUSCI_VERSION}
 
 # Install SFDX plugins
 RUN echo y | sfdx plugins:install shane-sfdx-plugins@4.43.0
 
+# Install prettier
+RUN set -x && \
+  (curl -sL https://deb.nodesource.com/setup_20.x | bash) && \
+  apt-get install --no-install-recommends nodejs && \
+  rm -rf /var/lib/apt/lists/* && \
+  npm install -g prettier@${PRETTIER_VERSION} && \
+  npm cache clean --force
+
 # Installed versions
-RUN git --version
-RUN python3 --version
-RUN pip3 --version
-RUN cci version
-RUN sfdx --version
-RUN sf version
-RUN sfdx plugins --core
+RUN set -x && \
+  node -v && \
+  npm -v && \
+  git --version && \
+  python3 --version && \
+  pip3 --version && \
+  cci version && \
+  sfdx --version && \
+  sf version && \
+  sfdx plugins --core && \
+  prettier -v
 
 ENV SFDX_CONTAINER_MODE true
 ENV DEBIAN_FRONTEND=dialog
@@ -122,7 +135,7 @@ Create your own Docxker file based on this image, and add your plugins, update S
 
 ```
 # My new Docker file
-FROM rupertbarrow/salesforcedx-cci:1.172.0_3.66.0
+FROM rupertbarrow/salesforcedx-cci:latest
 
 ENV SHELL /bin/bash
 ENV DEBIAN_FRONTEND=noninteractive

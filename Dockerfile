@@ -1,11 +1,11 @@
-FROM salesforce/salesforcedx:7.203.6-full
+FROM salesforce/cli:2.28.6-full
 
 ENV SHELL /bin/bash
 ENV DEBIAN_FRONTEND=noninteractive
 
-ARG SALESFORCE_CLI_VERSION=7.203.6
-ARG SF_CLI_VERSION=1.81.0
-ARG CUMULUSCI_VERSION=3.76.0
+#ARG SALESFORCE_CLI_VERSION=7.203.6
+ARG SF_CLI_VERSION=2.28.6
+ARG CUMULUSCI_VERSION=3.84.2
 
 # Basic
 RUN apt update
@@ -31,7 +31,7 @@ RUN pip3 install --no-cache-dir cumulusci==${CUMULUSCI_VERSION}
 
 # Install SFDX plugins
 RUN echo y | sfdx plugins:install shane-sfdx-plugins@4.43.0
-RUN echo y | sfdx plugins:install @dxatscale/sfpowerscripts@21.1.0
+#RUN echo y | sfdx plugins:install @dxatscale/sfpowerscripts@21.1.0
 
 # Install prettier
 #ARG NODEJS_VERSION=12.15.0-r1
@@ -42,7 +42,7 @@ RUN echo y | sfdx plugins:install @dxatscale/sfpowerscripts@21.1.0
 #  npm cache clean --force && \
 #  apk del nodejs-npm
 RUN set -x && \
-  (curl -sL https://deb.nodesource.com/setup_16.x | bash) && \
+  (curl -sL https://deb.nodesource.com/setup_20.x | bash) && \
   apt-get install --no-install-recommends nodejs && \
   rm -rf /var/lib/apt/lists/* && \
   npm install -g prettier@${PRETTIER_VERSION} && \
