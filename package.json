@@ -1,7 +1,7 @@
 {
   "name": "salesforcedx-cci",
   "description": "Docker image with Salesforce DX CLI, jq and Cumulus CI",
-  "version": "7.203.6_3.76.0",
+  "version": "2.28.6_3.84.2",
   "author": "Rupert Barrow",
   "license": "BSD-3-Clause",
   "bugs": "https://github.com/RupertBarrow/salesforcedx-cci-Docker/issues",
